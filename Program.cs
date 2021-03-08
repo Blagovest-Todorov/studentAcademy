@@ -25,14 +25,15 @@ namespace studentAcademy
                 students[studentName].Add(grade);
             }
 
-            Dictionary<string, List<double>> sortedStudents = students
-                .Where(s => s.Value.Average() >= 4.50)
-                .OrderByDescending(s => s.Value.Average())
+            Dictionary<string, double> sortedStudents = students
+                .Select(s => new KeyValuePair <string, double>(s.Key, s.Value.Average()))
+                .Where(s => s.Value >= 4.50)
+                .OrderByDescending(s => s.Value)
                 .ToDictionary(x => x.Key, x => x.Value);
 
             foreach (var student in sortedStudents)
             {
-                Console.WriteLine($"{student.Key} -> {student.Value.Average():F2}");
+                Console.WriteLine($"{student.Key} -> {student.Value:F2}");
             }
         }
     }
